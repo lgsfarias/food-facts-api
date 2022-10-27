@@ -1,4 +1,5 @@
 import './src/config/setup';
+import './src/config/database';
 import chalk from 'chalk';
 import app from './src/app';
 

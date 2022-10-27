@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to API');
+  res.send('Welcome to API edited');
 });
 
 export default app;

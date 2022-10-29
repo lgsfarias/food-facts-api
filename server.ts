@@ -1,5 +1,6 @@
 import './src/config/setup';
 import './src/config/database';
+import './src/cron';
 import chalk from 'chalk';
 import app from './src/app';
 

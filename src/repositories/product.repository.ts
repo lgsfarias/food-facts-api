@@ -33,10 +33,10 @@ export class ProductRepository {
     const existCodes = (await products.distinct('code')).map((code: number) =>
       Math.floor(code),
     );
-    const insertList = (await this.convertFileToList(filePath)).filter(
-      (product) => !existCodes.includes(Math.floor(product.code)),
-    );
+
+    const insertList = await this.convertFileToList(filePath, existCodes);
     await products.insertMany(insertList);
+
     console.log(
       'inserted ',
       insertList.length,
@@ -45,7 +45,10 @@ export class ProductRepository {
     );
   }
 
-  async convertFileToList(filePath: string): Promise<Product[]> {
+  async convertFileToList(
+    filePath: string,
+    existCodes: number[],
+  ): Promise<Product[]> {
     return new Promise((resolve, reject) => {
       let insertList: Product[] = [];
       let line = 0;
@@ -57,34 +60,40 @@ export class ProductRepository {
           if (line >= 100) {
             jsonFileStream.destroy();
           } else {
-            insertList.push({
-              code: Number(data.code.replace(/[^0-9]/g, '')),
-              status: 'published',
-              imported_t: new Date(),
-              url: data.url,
-              creator: data.creator,
-              created_t: data.created_t,
-              last_modified_t: data.last_modified_t,
-              product_name: data.product_name,
-              quantity: data.quantity,
-              brands: data.brands,
-              categories: data.categories,
-              labels: data.labels,
-              cities: data.cities,
-              purchase_places: data.purchase_places,
-              stores: data.stores,
-              ingredients_text: data.ingredients_text,
-              traces: data.traces,
-              serving_size: data.serving_size,
+            if (
+              !existCodes.includes(
+                Math.floor(Number(data.code.replace(/[^0-9]/g, ''))),
+              )
+            ) {
+              insertList.push({
+                code: Number(data.code.replace(/[^0-9]/g, '')),
+                status: 'published',
+                imported_t: new Date(),
+                url: data.url,
+                creator: data.creator,
+                created_t: data.created_t,
+                last_modified_t: data.last_modified_t,
+                product_name: data.product_name,
+                quantity: data.quantity,
+                brands: data.brands,
+                categories: data.categories,
+                labels: data.labels,
+                cities: data.cities,
+                purchase_places: data.purchase_places,
+                stores: data.stores,
+                ingredients_text: data.ingredients_text,
+                traces: data.traces,
+                serving_size: data.serving_size,
 
-              serving_quantity: data.serving_quantity,
-              nutriscore_score: data.nutriscore_score,
-              nutriscore_grade: data.nutriscore_grade,
-              main_category: data.main_category,
-              image_url: data.image_url,
-            });
+                serving_quantity: data.serving_quantity,
+                nutriscore_score: data.nutriscore_score,
+                nutriscore_grade: data.nutriscore_grade,
+                main_category: data.main_category,
+                image_url: data.image_url,
+              });
+              line++;
+            }
           }
-          line++;
         })
         .on('error', (err) => {
           console.log(err);

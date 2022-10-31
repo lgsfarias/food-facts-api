@@ -4,12 +4,11 @@ import fs from 'node:fs';
 import ndjson from 'ndjson';
 
 export class ProductRepository {
-  public async create(product: Product): Promise<Product> {
-    return await products.create(product);
-  }
-
-  public async findAll(): Promise<Product[]> {
-    return await products.find();
+  public async findAll(page: number, limit: number): Promise<Product[]> {
+    return await products
+      .find({ status: 'published' })
+      .skip(page * limit)
+      .limit(limit);
   }
 
   public async findOne(code: number): Promise<Product | null> {
@@ -25,7 +24,7 @@ export class ProductRepository {
   }
 
   public async delete(code: number): Promise<Product | null> {
-    return await products.findOneAndDelete({ code });
+    return await products.findOneAndUpdate({ code }, { status: 'trash' });
   }
 
   public async updateDbFromJson(filePath: string) {

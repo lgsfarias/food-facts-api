@@ -20,7 +20,11 @@ const filesPath = path.join(
 );
 const productRepository = new ProductRepository();
 
+export let lastCronExecution: Date = new Date();
+
 const job = new CronJob('0 0 23 * * *', async () => {
+  console.log('Starting cron job');
+  lastCronExecution = new Date();
   await downloadFilesList();
   await deleteAllFiles();
 
@@ -35,6 +39,7 @@ const job = new CronJob('0 0 23 * * *', async () => {
   await updateDatabase();
 
   gzFiles = [];
+  console.log('Cron job finished');
 });
 
 job.start();

@@ -10,10 +10,16 @@ export class ProductService {
   }
 
   public async findAll(page: number, limit: number): Promise<Product[]> {
+    if (!page) {
+      page = 0;
+    }
+    if (!limit) {
+      limit = 100;
+    }
     return await this.productRepository.findAll(page, limit);
   }
 
-  public async findOne(code: number): Promise<Product> {
+  public async findOne(code: number): Promise<Product | null> {
     const productFound = await this.productRepository.findOne(code);
     if (!productFound) {
       throw new AppError('Product not found', 404);

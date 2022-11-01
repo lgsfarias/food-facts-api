@@ -8,7 +8,12 @@
     "start": "node dist/server.js",
     "dev": "nodemon server.ts --ignore ./src/data/ --ignore ./src/docs/food/data/json/",
     "dev:compose": "docker-compose -f docker-compose.dev.yml --env-file .env.dev",
-    "dev:docker": "npm run dev:compose up --build"
+    "dev:docker": "npm run dev:compose up --build",
+    "dev:docker:down": "npm run dev:compose down",
+    "prod:compose": "docker-compose -f docker-compose.yml --env-file .env",
+    "prod:docker": "npm run prod:compose up --build",
+    "prod:docker:down": "npm run prod:compose down"
+
   },
   "keywords": [],
   "author": "",

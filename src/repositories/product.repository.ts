@@ -4,6 +4,10 @@ import fs from 'node:fs';
 import ndjson from 'ndjson';
 
 export class ProductRepository {
+  public async createMany(productsList: Product[]): Promise<Product[]> {
+    return await products.insertMany(productsList);
+  }
+
   public async findAll(page: number, limit: number): Promise<Product[]> {
     return await products
       .find({ status: 'published' })

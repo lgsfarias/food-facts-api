@@ -12,7 +12,7 @@ export class ProductRepository {
   }
 
   public async findOne(code: number): Promise<Product | null> {
-    return await products.findOne({ where: { code } });
+    return await products.findOne({ code });
   }
 
   public async update(code: number, product: Product): Promise<Product | null> {

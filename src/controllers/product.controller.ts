@@ -14,7 +14,8 @@ export class ProductController {
       const page = parseInt(req.query.page as string);
       const limit = parseInt(req.query.limit as string);
       const products = await this.productService.findAll(page, limit);
-      res.status(200).json(products);
+      const total = await this.productService.count();
+      res.status(200).json({ products, total });
     } catch (err) {
       if (err instanceof AppError) {
         res.status(err.statusCode).json({

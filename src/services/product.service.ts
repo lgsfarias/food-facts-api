@@ -19,6 +19,10 @@ export class ProductService {
     return await this.productRepository.findAll(page, limit);
   }
 
+  public async count(): Promise<number> {
+    return await this.productRepository.count();
+  }
+
   public async findOne(code: number): Promise<Product | null> {
     const productFound = await this.productRepository.findOne(code);
     if (!productFound) {

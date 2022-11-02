@@ -4,7 +4,6 @@ import 'express-async-errors';
 import { Routes } from './routes';
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware';
 import mongoose from 'mongoose';
-import { lastCronExecution } from './cron';
 
 export class App {
   app: express.Application;
@@ -30,7 +29,7 @@ export class App {
         status: 200,
         message: 'OK',
         database: mongoStatus[mongoose.connection.readyState],
-        lastCronExecution: lastCronExecution,
+        lastCronExecution: '',
         uptime: process.uptime().toFixed(1) + ' s',
         memoryUsage: process.memoryUsage(),
       });

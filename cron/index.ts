@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import axios from 'axios';
 import zlib from 'node:zlib';
-import { ProductRepository } from '../repositories/product.repository';
+import { ProductRepository } from '../src/repositories/product.repository';
 
 let gzFiles: string[] = [];
 
@@ -22,7 +22,7 @@ const productRepository = new ProductRepository();
 
 export let lastCronExecution: Date = new Date();
 
-const job = new CronJob('0 0 23 * * *', async () => {
+export const job = new CronJob('0 0 23 * * *', async () => {
   console.log('Starting cron job');
   lastCronExecution = new Date();
   await downloadFilesList();
@@ -41,8 +41,6 @@ const job = new CronJob('0 0 23 * * *', async () => {
   gzFiles = [];
   console.log('Cron job finished');
 });
-
-job.start();
 
 async function downloadAllFiles(gzFiles: string[]) {
   console.log('Files to download: ' + gzFiles.length);

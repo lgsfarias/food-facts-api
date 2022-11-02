@@ -17,7 +17,8 @@ services:
     env_file:
       - .env.test
     volumes:
-      - ./:/app/
+      - './:/app/'
+      - '/app/cron/'
     depends_on:
       - mongo-test
     

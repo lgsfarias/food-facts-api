@@ -1,10 +1,10 @@
 import './src/config/setup';
 import './src/config/database';
-import './src/cron';
 import chalk from 'chalk';
 import { App } from './src/app';
 import { Seed } from './src/config/dbSeed';
 import { initialValues } from './src/config/initialValues';
+import { job } from './cron';
 
 class Server {
   app: App;
@@ -23,6 +23,9 @@ class Server {
           chalk.bold.green(`Server running on http://localhost:${port}`),
         );
       });
+      if (process.env.NODE_ENV === 'prod') {
+        job.start();
+      }
     });
   }
 }

@@ -38,6 +38,7 @@ export const job = new CronJob('0 0 23 * * *', async () => {
 
   await downloadAllFiles(gzFiles);
   await updateDatabase();
+  await deleteAllFiles();
 
   gzFiles = [];
   console.log('Cron job finished');
@@ -94,7 +95,9 @@ async function deleteAllFiles() {
   console.log('Deleting all files');
   const files = fs.readdirSync(path.join(__dirname, '..', 'src', 'data'));
   files.forEach((file) => {
-    fs.unlinkSync(path.join(__dirname, '..', 'src', 'data', file));
+    if (file.includes('.json')) {
+      fs.unlinkSync(path.join(__dirname, '..', 'src', 'data', file));
+    }
   });
   console.log('All files deleted');
 }

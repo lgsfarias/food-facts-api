@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import { App } from '../src/app';
 import { ScenarioFactory } from './factories/scenario.factory';
 import { ProductFactory } from './factories/products.factory';
+import mongoose from 'mongoose';
 
 const productFactory = new ProductFactory();
 const scenarioFactory = new ScenarioFactory();
@@ -30,4 +31,9 @@ describe('PUT /products/:code', () => {
     });
     expect(response.status).toEqual(404);
   });
+});
+
+afterAll((done) => {
+  mongoose.connection.close();
+  done();
 });

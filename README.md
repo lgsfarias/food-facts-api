@@ -86,5 +86,3 @@ Após essa etapa será marcado a apresentação/correção do projeto.
 ## Suporte
 
 Use a [nossa comunidade](https://coodesh.com/desenvolvedores#community) para tirar dúvidas sobre o processo ou envie um e-mail para contato@coodesh.com.
-
-## Test

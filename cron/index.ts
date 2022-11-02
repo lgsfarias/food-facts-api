@@ -12,6 +12,7 @@ const baseUrl = 'https://challenges.coode.sh/food/data/json/';
 const filesPath = path.join(
   __dirname,
   '..',
+  'src',
   'docs',
   'food',
   'data',
@@ -37,6 +38,7 @@ export const job = new CronJob('0 0 23 * * *', async () => {
 
   await downloadAllFiles(gzFiles);
   await updateDatabase();
+  await deleteAllFiles();
 
   gzFiles = [];
   console.log('Cron job finished');
@@ -46,7 +48,7 @@ async function downloadAllFiles(gzFiles: string[]) {
   console.log('Files to download: ' + gzFiles.length);
   const promises: Promise<void>[] = gzFiles.map(async (fileName) => {
     console.log('Downloading file: ' + fileName);
-    const filePath = path.join(__dirname, '..', 'data', fileName);
+    const filePath = path.join(__dirname, '..', 'src', 'data', fileName);
     const unzippedFile = fs.createWriteStream(filePath.replace('.gz', ''));
 
     try {
@@ -91,9 +93,11 @@ async function downloadFilesList() {
 
 async function deleteAllFiles() {
   console.log('Deleting all files');
-  const files = fs.readdirSync(path.join(__dirname, '..', 'data'));
+  const files = fs.readdirSync(path.join(__dirname, '..', 'src', 'data'));
   files.forEach((file) => {
-    fs.unlinkSync(path.join(__dirname, '..', 'data', file));
+    if (file.includes('.json')) {
+      fs.unlinkSync(path.join(__dirname, '..', 'src', 'data', file));
+    }
   });
   console.log('All files deleted');
 }
@@ -103,6 +107,7 @@ async function updateDatabase() {
     const filePath = path.join(
       __dirname,
       '..',
+      'src',
       'data',
       fileName.replace('.gz', ''),
     );

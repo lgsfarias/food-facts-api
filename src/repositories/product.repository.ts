@@ -15,6 +15,10 @@ export class ProductRepository {
       .limit(limit);
   }
 
+  public async count(): Promise<number> {
+    return await products.countDocuments({ status: 'published' });
+  }
+
   public async findOne(code: number): Promise<Product | null> {
     return await products.findOne({ code });
   }

@@ -6,19 +6,13 @@ services:
     container_name: mongo-test
     env_file:
       - .env.test
-    ports:
-      - 27017:27017
   node-app-test:
     build:
       context: .
       dockerfile: Dockerfile.test
-    ports:
-      - "4000:4000"
+    container_name: node-app-test
     env_file:
       - .env.test
-    volumes:
-      - './:/app/'
-      - '/app/cron/'
     depends_on:
       - mongo-test
     

@@ -74,7 +74,6 @@ web_modules/
 
 # dotenv environment variable files
 .env
-.env.dev
 .env.development.local
 .env.test.local
 .env.production.local
@@ -132,3 +131,5 @@ dist
 .pnp.*
 
 data/
+src/data/*.json
+src/docs/food/data/json/*.txt

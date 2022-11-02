@@ -2,8 +2,6 @@ import mongoose from 'mongoose';
 import chalk from 'chalk';
 
 const mongoURI = String(process.env.MONGO_URI);
-console.log(mongoURI);
-
 mongoose.connect(mongoURI);
 
 const db = mongoose.connection;

@@ -12,27 +12,22 @@ beforeEach(async () => {
   await scenarioFactory.resetDatabase();
 });
 
-describe('GET /products', () => {
-  it('should return 200 OK', async () => {
-    const response = await agent.get('/products');
-    expect(response.status).toEqual(200);
-  });
-  it('should return an array of products', async () => {
-    await productFactory.createMany(2);
-    const response = await agent.get('/products');
-    expect(response.body.products.length).toEqual(2);
-  });
-});
-
-describe('GET /products/:code', () => {
+describe('PUT /products/:code', () => {
   it('should return 200 OK', async () => {
     const product = await productFactory.create();
-    const response = await agent.get(`/products/${product.code}`);
+    const response = await agent.put(`/products/${product.code}`).send({
+      product_name: 'New name',
+    });
     expect(response.status).toEqual(200);
-    expect(response.body.code).toEqual(product.code);
+    expect(response.body.product_name).toEqual('New name');
+
+    const updatedProduct = await agent.get(`/products/${product.code}`);
+    expect(updatedProduct.body.product_name).toEqual('New name');
   });
   it('should return 404 Not Found', async () => {
-    const response = await agent.get('/products/123');
+    const response = await agent.put('/products/123').send({
+      product_name: 'New name',
+    });
     expect(response.status).toEqual(404);
   });
 });

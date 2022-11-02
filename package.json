@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "nodemon server.ts --ignore ./src/data/ --ignore ./src/docs/food/data/json/",
-    "test": "DOTENV_CONFIG_PATH=.env.test NODE_OPTIONS=--experimental-vm-modules jest  --passWithNoTests",
+    "start": "NODE_ENV=prod node dist/server.js",
+    "dev": "NODE_ENV=dev nodemon server.ts --ignore ./src/data/ --ignore ./src/docs/food/data/json/",
+    "test": "NODE_ENV=test DOTENV_CONFIG_PATH=.env.test NODE_OPTIONS=--experimental-vm-modules jest  --passWithNoTests",
     "dev:compose": "docker-compose -f docker-compose.dev.yml --env-file .env.dev",
     "dev:docker": "npm run dev:compose up --build",
     "dev:docker:down": "npm run dev:compose down",

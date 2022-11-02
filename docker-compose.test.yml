@@ -4,10 +4,10 @@ services:
   mongo-test:
     image: mongo:4.0.3
     container_name: mongo-test
+    env_file:
+      - .env.test
     ports:
       - 27017:27017
-    volumes:
-      - ./data/test:/data/db
   node-app-test:
     build:
       context: .

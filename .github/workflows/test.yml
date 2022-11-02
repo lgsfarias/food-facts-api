@@ -1,0 +1,16 @@
+name: Pull Request
+on: [pull_request]
+jobs:
+  PullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Make a new envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_PORT: '4000'
+          envkey_MONGO_URI: 'mongodb://mongo-test:27017/test'
+          file_name: .env.test
+      - name: Run tests
+        run: npm run test:docker

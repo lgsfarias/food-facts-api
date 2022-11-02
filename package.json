@@ -18,7 +18,7 @@
     "test:docker": "npm run test:compose up --build",
     "test:docker:down": "npm run test:compose down",
     "ci:build": "npm run test:docker",
-    "ci:test": "docker-compose -f docker-compose.test.yml run node-app-test bash -c 'npm test'"
+    "ci:test": "docker-compose -f docker-compose.test.yml run node-app-test npm run test"
   },
   "keywords": [],
   "author": "",

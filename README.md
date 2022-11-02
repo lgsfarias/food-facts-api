@@ -1,88 +1,157 @@
 # NodeJs Challenge 20201030
 
-## Introdução
+<p align="center">
+  <a href="https://github.com/lgsfarias/nodejs-challenge-20201030">
+    <img src="./src/assets/foodiconreadme.png" alt="readme-logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">
+    Food Facts API
+  </h3>
+  <p align="center">
+    API para suporte a nutricionistas nutricionistas da empresa Fitness Foods LC
+    <br />
+    <a href="https://github.com/lgsfarias/nodejs-challenge-20201030"><strong>Explore the docs »</strong></a>
+    <br />
+</p>
+
+## 🎯 Objetivo
 
 Nesse desafio trabalharemos no desenvolvimento de uma REST API para utilizar os dados do projeto Open Food Facts, que é um banco de dados aberto com informação nutricional de diversos produtos alimentícios.
 
 O projeto tem como objetivo dar suporte a equipe de nutricionistas da empresa Fitness Foods LC para que eles possam revisar de maneira rápida a informação nutricional dos alimentos que os usuários publicam pela aplicação móvel.
 
-### Instruções iniciais obrigatórias
+<br/>
 
-- Utilizar o seu github pessoal para publicar o desafio. Confirme que a visibilidade do projeto é pública (não esqueça de colocar no readme a referência a este challenge);
-- O projeto back-end deverá ser desenvolvido usando em NodeJS
-- Documentação para configuração do projeto em ambientes de produção (como instalar, rodar e referências a libs usadas);
+## ⛏️ Ferramentas utilizadas
 
-## O projeto
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-47A248?style=for-the-badge&logo=mongoose&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
-- Criar um banco de dados MongoDB usando Atlas: https://www.mongodb.com/cloud/atlas ou algum Banco de Dados SQL se não sentir confortável com NoSQL;
-- Criar uma REST API usando NodeJS com as melhores práticas de desenvolvimento.
-- Integrar a API com o banco de dados criado para persistir os dados
-- Recomendável usar Drivers oficiais para integração com o DB
-- Desenvolver Testes Unitários
+<br/>
 
-### Modelo de Dados:
+## 🏁 instruções de instalação
 
-Para a definição do modelo, consultar o arquivo [products.json](./products.json) que foi exportado do Open Food Facts, um detalhe importante é que temos dois campos personalizados para poder fazer o controle interno do sistema e que deverão ser aplicados em todos os alimentos no momento da importação, os campos são:
+Para rodar este projeto, você precisará instalar [Node.js](https://nodejs.org/en/).
 
-- `imported_t`: campo do tipo Date com a dia e hora que foi importado;
-- `status`: campo do tipo Enum com os possíveis valores draft, trash e published;
+Clone o repositório
 
-### Sistema do CRON
+```bash
+git clone https://github.com/lgsfarias/nodejs-challenge-20201030.git
+```
 
-Para prosseguir com o desafio, precisaremos criar na API um sistema de atualização que vai importar os dados para a Base de Dados com a versão mais recente do [Open Food Facts](https://br.openfoodfacts.org/data) uma vez ao día. Adicionar aos arquivos de configuração o melhor horário para executar a importação.
+Accesse a pasta do projeto
 
-A lista de arquivos do Open Food, pode ser encontrada em:
+```bash
+cd nodejs-challenge-20201030
+```
 
-- https://challenges.coode.sh/food/data/json/index.txt
-- https://challenges.coode.sh/food/data/json/data-fields.txt
+Preencha o arquivo .env com as variáveis de ambiente conforme o arquivo .env.example
 
-Onde cada linha representa um arquivo que está disponível em https://challenges.coode.sh/food/data/json/{filename}.
+```bash
+cp .env.example .env
+```
 
-É recomendável utilizar uma Collection secundária para controlar os históricos das importações e facilitar a validação durante a execução.
+Instale as dependências
 
-Ter em conta que:
+```bash
+npm install
+```
 
-- Todos os produtos deverão ter os campos personalizados `imported_t` e `status`.
-- Limitar a importação a somente 100 produtos de cada arquivo.
+<br/>
 
-### A REST API
+## 🏃🏽 Como rodar o projeto
 
-Na REST API teremos um CRUD com os seguintes endpoints:
+Este projeto utiliza o [Docker](https://www.docker.com/) e docker-compose para subir a API e o MongoDB em ambientes de teste e desenvolvimento. Portanto para rodar o projeto, você precisará ter o [Docker](https://www.docker.com/) instalado em sua máquina.
 
-- `GET /`: Detalhes da API, se conexão leitura e escritura com a base de dados está OK, horário da última vez que o CRON foi executado, tempo online e uso de memória.
-- `PUT /products/:code`: Será responsável por receber atualizações do Projeto Web
-- `DELETE /products/:code`: Mudar o status do produto para `trash`
-- `GET /products/:code`: Obter a informação somente de um produto da base de dados
-- `GET /products`: Listar todos os produtos da base de dados, adicionar sistema de paginação para não sobrecarregar o `REQUEST`.
+Para rodar o projeto em ambiente de desenvolvimento, execute o comando:
 
-## Extras
+```bash
+npm run dev:docker
+```
 
-- **Diferencial 1** Front End con ReactJs, configurar um projeto web para listar os produtos cadastrados na REST API.
-- **Diferencial 2** Configurar Docker no Projeto para facilitar o Deploy da equipe de DevOps;
-- **Diferencial 3** Configurar um sistema de alerta se tem algum falho durante o Sync dos produtos;
-- **Diferencial 4** Descrever a documentação da API utilizando o conceito de Open API 3.0;
-- **Diferencial 5** Escrever Unit Tests para os endpoints GET e PUT do CRUD;
+Para rodar o projeto em ambiente de produção, execute o comando:
 
-## Readme do Repositório
+```bash
+npm run prod:docker
+```
 
-- Deve conter o título de cada projeto
-- Uma descrição de uma frase
-- Como instalar e usar o projeto (instruções)
-- Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
+Para rodar os testes, execute o comando:
 
-## Finalização
+```bash
+npm run ci:test
+```
 
-Avisar sobre a finalização e enviar para correção em: [https://coodesh.com/review-challenge](https://coodesh.com/review-challenge)
-Após essa etapa será marcado a apresentação/correção do projeto.
+<br/>
 
-## Instruções para a Apresentação:
+## 🚀 Rotas
 
-1. Será necessário compartilhar a tela durante a vídeo chamada;
-2. Deixe todos os projetos de solução previamente abertos em seu computador antes de iniciar a chamada;
-3. Deixe os ambientes configurados e prontos para rodar;
-4. Prepara-se pois você será questionado sobre cada etapa e decisão do Challenge;
-5. Prepare uma lista de perguntas, dúvidas, sugestões de melhorias e feedbacks (caso tenha).
+```yml
+GET /
+- Detalhes da API, se conexão leitura e escritura com a base de dados está OK, horário da última vez que o CRON foi executado, tempo online e uso de memória.
+```
 
-## Suporte
+```yml
+PUT /products/:code
+    - Será responsável por receber atualizações do Projeto Web
+    - body: {
+      code: number;,
+      status: string,
+      url: string,
+      creator: string,
+      created_t: number,
+      last_modified_t: number,
+      product_name: string,
+      quantity: string,
+      brands: string,
+      categories: string,
+      labels: string,
+      cities: string,
+      purchase_places: string,
+      stores: string,
+      ingredients_text: string,
+      traces: string,
+      serving_size: string,
+      serving_quantity: number,
+      nutriscore_score: number,
+      nutriscore_grade: string,
+      main_category: string,
+      image_url: string,
+      imported_t: string
+    }
+```
 
-Use a [nossa comunidade](https://coodesh.com/desenvolvedores#community) para tirar dúvidas sobre o processo ou envie um e-mail para contato@coodesh.com.
+```yml
+DELETE /products/:code
+-  Mudar o status do produto para trash
+```
+
+```yml
+GET /products/:code
+- Obter a informação somente de um produto da base de dados
+```
+
+```yml
+GET /products?page={page}&limit={limit}
+- Obter a informação de todos os produtos da base de dados com paginação
+```
+
+<br/>
+
+## Frontend do projeto
+
+O frontend do projeto está disponível em: [Frontend](https://github.com/lgsfarias/nodejs-challenge-20201030-front)
+
+<br/>
+
+## Contact
+
+<div>
+  <a href="https://www.linkedin.com/in/lgsfarias" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+  <a href = "mailto:lgsfarias.dev@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
+</div>

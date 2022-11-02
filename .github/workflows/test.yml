@@ -12,8 +12,5 @@ jobs:
           envkey_PORT: '4000'
           envkey_MONGO_URI: 'mongodb://mongo-test:27017/test'
           file_name: .env.test
-      - name: Build
-        run: npm run ci:build
-
       - name: Test
         run: npm run ci:test
